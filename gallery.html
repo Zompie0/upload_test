@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>アップロード画像一覧</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 { margin-bottom: 20px; }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+    .gallery img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+    a.button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>アップロード済み画像</h1>
+  <div class="gallery" id="gallery"></div>
+
+  <a href="index.html" class="button">← アップロードページへ戻る</a>
+
+  <script>
+    async function loadImages() {
+      const res = await fetch('/images');
+      const images = await res.json();
+      const gallery = document.getElementById('gallery');
+      gallery.innerHTML = '';
+      images.forEach(img => {
+        const el = document.createElement('img');
+        el.src = './file/' + img;
+        gallery.appendChild(el);
+      });
+    }
+    loadImages();
+  </script>
+</body>
+</html>
